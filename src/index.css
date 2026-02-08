@@ -1,0 +1,109 @@
+:root {
+  /* Minimalist Data/AI Palette (Google Research Style) */
+  --color-bg: #000000;
+  /* Pure Black */
+  --color-bg-secondary: #000000;
+  /* Black for cards too */
+
+  --color-text: #ffffff;
+  /* Pure White */
+  --color-text-secondary: #e2e8f0;
+  /* Bright Grey (Slate-200) for better visibility */
+  --color-text-dim: #94a3b8;
+  /* Slate-400 */
+
+  /* Accents */
+  --color-primary: #ffffff;
+  /* White Accent */
+  --color-secondary: #e2e8f0;
+  /* Grey Accent */
+  --color-border: #3c4043;
+  /* Dark Grey Border */
+
+  --shadow-text: 0 4px 12px rgba(0, 0, 0, 0.8);
+  /* Strong pop for text */
+
+  /* Fonts */
+  --font-sans: 'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  --font-mono: 'Inter',
+    sans-serif;
+
+  /* Spacing */
+  --spacing-container: 1200px;
+  --header-height: 80px;
+  --radius-card: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-text);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-shadow: var(--shadow-text);
+}
+
+/* Utilities */
+.container {
+  max-width: var(--spacing-container);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+::selection {
+  background: #ffffff;
+  color: #000000;
+}
