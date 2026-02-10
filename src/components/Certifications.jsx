@@ -36,15 +36,40 @@ const certifications = [
 const Certifications = ({ onViewAll }) => {
   const [selectedCert, setSelectedCert] = useState(null);
 
+  // Helper to generate URL-friendly slug
+  const getCertSlug = (title) => `#cert-${title.toLowerCase().replace(/\s+/g, '-')}`;
+
   React.useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#cert-')) {
+        const cert = certifications.find(c => getCertSlug(c.title) === hash);
+        if (cert) setSelectedCert(cert);
+        else setSelectedCert(null);
+      } else {
         setSelectedCert(null);
       }
     };
 
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (window.location.hash.startsWith('#cert-')) {
+          if (window.history.length > 1) window.history.back();
+          else window.location.hash = '';
+        } else {
+          setSelectedCert(null);
+        }
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   return (
@@ -76,7 +101,7 @@ const Certifications = ({ onViewAll }) => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              onClick={() => setSelectedCert(cert)}
+              onClick={() => window.location.hash = getCertSlug(cert.title)}
             >
               <div className="cert-image-wrapper">
                 <img src={cert.image} alt={cert.title} className="cert-cover" />
@@ -110,7 +135,10 @@ const Certifications = ({ onViewAll }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedCert(null)}
+            onClick={() => {
+              if (window.history.length > 1) window.history.back();
+              else window.location.hash = '';
+            }}
           >
             <motion.div
               className="modal-content"
@@ -119,7 +147,10 @@ const Certifications = ({ onViewAll }) => {
               exit={{ scale: 0.8 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <button className="close-btn" onClick={() => setSelectedCert(null)}>
+              <button className="close-btn" onClick={() => {
+                if (window.history.length > 1) window.history.back();
+                else window.location.hash = '';
+              }}>
                 <X size={24} />
               </button>
               <img src={certifications.find(c => c.title === selectedCert.title)?.image} alt={selectedCert.title} className="full-image" />
@@ -194,8 +225,6 @@ const Certifications = ({ onViewAll }) => {
           justify-content: space-between;
         }
         
-
-        
         .cert-title {
           font-size: 1.2rem;
           font-weight: bold;
@@ -229,11 +258,6 @@ const Certifications = ({ onViewAll }) => {
           transform: translateX(5px);
         }
 
-        .cert-card:hover .hover-indicator {
-          opacity: 1;
-          transform: scale(1);
-        }
-        
         .view-all {
           text-align: center;
           margin-top: 2rem;
@@ -282,7 +306,7 @@ const Certifications = ({ onViewAll }) => {
           max-height: 90vh;
           object-fit: contain;
           border-radius: 8px;
-          box-shadow: 0 0 50px rgba(0,0,0,0.5);
+          box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
         }
 
         .close-btn {
@@ -294,7 +318,7 @@ const Certifications = ({ onViewAll }) => {
           color: white;
           cursor: pointer;
         }
-      `}</style>
+`}</style>
     </section>
   );
 };

@@ -185,10 +185,31 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
+  // Helper to generate URL-friendly slug
+  const getProjectSlug = (title) => `#project-${title.toLowerCase().replace(/\s+/g, '-')}`;
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#project-')) {
+        const project = projects.find(p => getProjectSlug(p.title) === hash);
+        if (project) setSelectedProject(project);
+        else setSelectedProject(null);
+      } else {
+        setSelectedProject(null);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
   return (
@@ -217,7 +238,7 @@ const Projects = () => {
             <motion.div
               key={index}
               className="project-card"
-              onClick={() => setSelectedProject(project)}
+              onClick={() => window.location.hash = getProjectSlug(project.title)}
               initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               animate={isMobile ? { opacity: 1, y: 0 } : undefined}
               whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
@@ -260,7 +281,13 @@ const Projects = () => {
       {selectedProject && (
         <ProjectModal
           project={selectedProject}
-          onClose={() => setSelectedProject(null)}
+          onClose={() => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              window.location.hash = '';
+            }
+          }}
         />
       )}
 

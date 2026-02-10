@@ -16,11 +16,30 @@ const allCertificates = [
 const AllCertifications = ({ onBack }) => {
   const [selectedCert, setSelectedCert] = useState(null);
 
+  // Helper to generate hash
+  const getCertHash = (id) => `#all-certifications/cert-${id}`;
+
   React.useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#all-certifications/cert-')) {
+        const idPart = hash.substring('#all-certifications/cert-'.length);
+        const cert = allCertificates.find(c => c.id.toString() === idPart);
+        if (cert) setSelectedCert(cert);
+        else setSelectedCert(null);
+      } else {
+        setSelectedCert(null);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
-        if (selectedCert) {
-          setSelectedCert(null);
+        if (window.location.hash.startsWith('#all-certifications/cert-')) {
+          if (window.history.length > 1) window.history.back();
+          else window.location.hash = '#all-certifications';
         } else {
           onBack();
         }
@@ -28,8 +47,11 @@ const AllCertifications = ({ onBack }) => {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedCert, onBack]);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onBack]);
 
   return (
     <section className="section all-certs-section">
@@ -55,7 +77,7 @@ const AllCertifications = ({ onBack }) => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              onClick={() => setSelectedCert(cert)}
+              onClick={() => window.location.hash = getCertHash(cert.id)}
             >
               <div className="cert-image-container">
                 <img src={cert.image} alt={cert.title} className="cert-thumb" />
@@ -75,7 +97,10 @@ const AllCertifications = ({ onBack }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedCert(null)}
+            onClick={() => {
+              if (window.history.length > 1) window.history.back();
+              else window.location.hash = '#all-certifications';
+            }}
           >
             <motion.div
               className="modal-content"
@@ -84,7 +109,10 @@ const AllCertifications = ({ onBack }) => {
               exit={{ scale: 0.8 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <button className="close-btn" onClick={() => setSelectedCert(null)}>
+              <button className="close-btn" onClick={() => {
+                if (window.history.length > 1) window.history.back();
+                else window.location.hash = '#all-certifications';
+              }}>
                 <X size={24} />
               </button>
               <img src={selectedCert.image} alt={selectedCert.title} className="full-image" />
@@ -194,7 +222,7 @@ const AllCertifications = ({ onBack }) => {
           max-height: 90vh;
           object-fit: contain;
           border-radius: 8px;
-          box-shadow: 0 0 50px rgba(0,0,0,0.5);
+          box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
         }
 
         .close-btn {
@@ -206,7 +234,7 @@ const AllCertifications = ({ onBack }) => {
           color: white;
           cursor: pointer;
         }
-      `}</style>
+`}</style>
     </section>
   );
 };
