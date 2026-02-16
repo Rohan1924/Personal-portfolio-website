@@ -44,9 +44,6 @@ const Navbar = ({ view, setView, onOpenResume }) => {
   return (
     <nav className="navbar">
       <div className="container nav-container">
-        <div className="logo">
-          PORTFOLIO
-        </div>
 
         {/* Mobile Toggle */}
         <div className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
@@ -80,17 +77,11 @@ const Navbar = ({ view, setView, onOpenResume }) => {
         }
         .nav-container {
           display: flex;
-          justify-content: space-between;
+          justify-content: flex-end;
           align-items: center;
           height: 100%;
         }
-        .logo {
-          font-family: var(--font-sans);
-          font-weight: 600;
-          font-size: 1.125rem;
-          color: var(--color-text);
-          letter-spacing: 0.05em;
-        }
+
         .mobile-toggle {
             display: none;
             cursor: pointer;
