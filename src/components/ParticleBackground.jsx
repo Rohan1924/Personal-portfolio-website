@@ -76,10 +76,10 @@ const ParticleBackground = () => {
                     float n2 = snoise(st * 1.5 - uTime * 0.1);
                     
                     // Deep Royal Blue / Purple / Cyan Palette
-                    // Matrix Green Palette
-                    vec3 colorA = vec3(0.0, 0.02, 0.0);   // Almost Back
-                    vec3 colorB = vec3(0.0, 0.15, 0.05);  // Deep Matrix Green
-                    vec3 colorC = vec3(0.0, 0.8, 0.2);    // Neon Green Highlight
+                    // Blue Gradient Palette
+                    vec3 colorA = vec3(0.0, 0.0, 0.05);   // Deep Blue/Black
+                    vec3 colorB = vec3(0.0, 0.1, 0.5);  // Royal Blue
+                    vec3 colorC = vec3(0.0, 0.5, 1.0);    // Cyan Highlight
                     
                     vec3 color = mix(colorA, colorB, n + 0.5);
                     color = mix(color, colorC, n2 * 0.5 + 0.2); 

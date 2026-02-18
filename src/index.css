@@ -77,6 +77,16 @@ h6 {
   padding: 0 2rem;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  html {
+    font-size: 14px; /* Slightly scale down base font size */
+  }
+}
+
 .text-primary {
   color: var(--color-primary);
 }

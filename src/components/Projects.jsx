@@ -345,15 +345,38 @@ const Projects = () => {
 
         /* Mobile Optimizations for Performance */
         @media (max-width: 768px) {
+            .headline {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
             .project-card {
                 box-shadow: none; /* remove heavy shadow */
                 transition: transform 0.2s; /* simplified transition */
                 will-change: transform; /* hint to browser */
                 background: rgba(10, 10, 15, 0.9); /* higher opacity to avoid heavy blending */
+                min-height: auto;
             }
             .project-card:hover {
                 transform: none; /* disable hover move on scroll */
                 box-shadow: none;
+            }
+            .card-image {
+                height: 180px;
+            }
+            .project-title {
+                font-size: 1.1rem;
+            }
+            .project-desc {
+                font-size: 0.9rem;
+                margin-bottom: 0.75rem;
+            }
+            .tag {
+                font-size: 0.7rem;
+                padding: 0.15em 0.6em;
             }
         }
         

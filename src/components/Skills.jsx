@@ -199,8 +199,24 @@ const Skills = () => {
         }
         
         @media (max-width: 768px) {
-          .headline { font-size: 2.5rem; }
-          .skills-grid { grid-template-columns: 1fr; }
+          .headline { 
+            font-size: 2rem; 
+            margin-bottom: 2rem;
+          }
+          .skills-grid { 
+            grid-template-columns: 1fr; 
+            gap: 2.5rem;
+          }
+          .skill-pill {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+          }
+          .skill-icon {
+            font-size: 1.2rem;
+          }
+          .skill-name {
+            font-size: 0.85rem;
+          }
         }
       `}</style>
     </section>
