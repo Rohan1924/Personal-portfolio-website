@@ -56,13 +56,13 @@ const Hero = () => {
           text-shadow: var(--shadow-text);
         }
         .name {
-          font-size: 5rem;
-          font-weight: 800; /* Bolder */
-          line-height: 1;
+          font-size: 3.5rem; /* Reduced from 5rem */
+          font-weight: 600; /* Reduced from 800 */
+          line-height: 1.1;
           margin-bottom: 1.5rem;
           color: var(--color-text);
-          letter-spacing: -0.04em;
-          text-shadow: 0 10px 30px rgba(0,0,0,0.8); /* Deep shadow */
+          letter-spacing: -0.02em;
+          text-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Softer shadow */
         }
         .title {
           font-family: var(--font-mono);
@@ -150,7 +150,7 @@ const Hero = () => {
         }
         
         @media (max-width: 768px) {
-          .name { font-size: 2.8rem; }
+          .name { font-size: 2.2rem; } /* Reduced from 2.8rem */
           .title { font-size: 1.2rem; }
           .bio { font-size: 1rem; margin-bottom: 2rem; }
           .btn { padding: 0.75rem 1.5rem; font-size: 0.8rem; }
