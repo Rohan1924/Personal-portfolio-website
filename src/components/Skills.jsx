@@ -168,20 +168,21 @@ const Skills = () => {
           display: flex;
           align-items: center;
           gap: 0.8rem;
-          background: rgba(15, 15, 20, 0.5); /* Semi-transparent 50% opacity */
+          background: rgba(255, 255, 255, 0.05);
           padding: 0.75rem 1.25rem;
           border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           transition: all 0.3s ease;
           width: fit-content;
-          /* backdrop-filter removed for smooth scrolling */
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
         }
         
         .skill-pill:hover {
-          background: rgba(30, 30, 40, 0.8);
-          border-color: rgba(255, 255, 255, 0.25);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(100, 160, 255, 0.45);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 12px rgba(74, 158, 255, 0.15);
         }
         
         .skill-icon {
