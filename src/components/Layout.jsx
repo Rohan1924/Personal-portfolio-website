@@ -188,8 +188,9 @@ const ScrollProgress = () => {
     const handleScroll = () => {
       if (!barRef.current) return;
       const totalHeight = document.body.scrollHeight - window.innerHeight;
-      const scrolled = (window.scrollY / totalHeight) * 100;
-      barRef.current.style.width = `${scrolled}%`;
+      const scrolled = window.scrollY / totalHeight;
+      // Use transform scaleX instead of width for GPU acceleration (prevents layout thrash)
+      barRef.current.style.transform = `scaleX(${scrolled})`;
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -202,13 +203,15 @@ const ScrollProgress = () => {
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '0%',
+        width: '100%',
         height: '2px',
         background: 'linear-gradient(to right, #4a9eff, #a78bfa)',
         zIndex: 2000,
         boxShadow: '0 0 8px rgba(74, 158, 255, 0.6)',
         pointerEvents: 'none',
-        willChange: 'width',
+        transformOrigin: 'left',
+        transform: 'scaleX(0)',
+        willChange: 'transform',
       }}
     />
   );

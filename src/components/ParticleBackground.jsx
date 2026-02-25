@@ -73,16 +73,17 @@ const ParticleBackground = () => {
                 void main() {
                     vec2 st = gl_FragCoord.xy/uResolution.xy;
                     
-                    float n = snoise(st * 2.0 + uTime * 0.05); // Slower, smoother
-                    float n2 = snoise(st * 1.5 - uTime * 0.1);
+                    // Single noise lookup to save GPU cycles (major scroll performance boost)
+                    float n = snoise(st * 1.5 + uTime * 0.08); 
                     
                     // Blue Gradient Palette
                     vec3 colorA = vec3(0.0, 0.0, 0.05);   // Deep Blue/Black
                     vec3 colorB = vec3(0.0, 0.1, 0.5);    // Royal Blue
                     vec3 colorC = vec3(0.0, 0.5, 1.0);    // Cyan Highlight
                     
-                    vec3 color = mix(colorA, colorB, n + 0.5);
-                    color = mix(color, colorC, n2 * 0.5 + 0.2); 
+                    // Map noise [-1, 1] to color interpolation
+                    vec3 color = mix(colorA, colorB, n * 0.5 + 0.5);
+                    color = mix(color, colorC, smoothstep(0.2, 0.8, n)); 
                     
                     gl_FragColor = vec4(color, 1.0);
                 }
@@ -158,31 +159,10 @@ const ParticleBackground = () => {
         particles.targetRotationX = 0;
         particles.targetRotationY = 0;
 
-        // --- Throttle to 30fps + pause during scroll ---
-        const TARGET_FPS = 30;
-        const FRAME_INTERVAL = 1000 / TARGET_FPS;
-        let lastFrameTime = 0;
-        let isScrolling = false;
-        let scrollTimeout = null;
-
-        const handleScroll = () => {
-            isScrolling = true;
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                isScrolling = false;
-            }, 150);
-        };
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
-        const animate = (timestamp) => {
+        const animate = () => {
             frameId = requestAnimationFrame(animate);
-
-            // Skip frame if scrolling or not enough time passed
-            if (isScrolling) return;
-            if (timestamp - lastFrameTime < FRAME_INTERVAL) return;
-            lastFrameTime = timestamp;
-
             const time = clock.getElapsedTime();
+
             gradientUniforms.uTime.value = time;
 
             if (mouseObj.isOnScreen) {
@@ -206,7 +186,7 @@ const ParticleBackground = () => {
             particles.rotation.y += 0.002;
             renderer.render(scene, camera);
         };
-        animate(0);
+        animate();
 
         // --- Resize ---
         const handleResize = () => {
@@ -223,8 +203,6 @@ const ParticleBackground = () => {
             document.body.removeEventListener('mouseenter', handleMouseEnter);
             document.body.removeEventListener('mouseleave', handleMouseLeave);
             window.removeEventListener('resize', handleResize);
-            window.removeEventListener('scroll', handleScroll);
-            clearTimeout(scrollTimeout);
             cancelAnimationFrame(frameId);
             if (mount.contains(renderer.domElement)) {
                 mount.removeChild(renderer.domElement);
