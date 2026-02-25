@@ -143,6 +143,12 @@ const Navbar = ({ view, setView, onOpenResume }) => {
             display: block;
             z-index: 1001;
           }
+          .navbar {
+            /* Disable blur on mobile for scroll performance */
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background: rgba(0, 0, 0, 0.92);
+          }
           .nav-links {
             position: fixed;
             top: var(--header-height);
@@ -150,8 +156,9 @@ const Navbar = ({ view, setView, onOpenResume }) => {
             width: 100%;
             height: calc(100vh - var(--header-height));
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.97);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
             padding: 1.5rem;
             gap: 1.5rem;
             transform: translateX(100%);
@@ -173,32 +180,37 @@ const Navbar = ({ view, setView, onOpenResume }) => {
   );
 };
 
-// Scroll Progress Bar
+// Scroll Progress Bar — uses ref to avoid React re-renders on every scroll
 const ScrollProgress = () => {
-  const [progress, setProgress] = useState(0);
+  const barRef = React.useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
+      if (!barRef.current) return;
       const totalHeight = document.body.scrollHeight - window.innerHeight;
       const scrolled = (window.scrollY / totalHeight) * 100;
-      setProgress(scrolled);
+      barRef.current.style.width = `${scrolled}%`;
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: `${progress}%`,
-      height: '2px',
-      background: 'linear-gradient(to right, #4a9eff, #a78bfa)',
-      zIndex: 2000,
-      transition: 'width 0.1s linear',
-      boxShadow: '0 0 8px rgba(74, 158, 255, 0.6)',
-    }} />
+    <div
+      ref={barRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '0%',
+        height: '2px',
+        background: 'linear-gradient(to right, #4a9eff, #a78bfa)',
+        zIndex: 2000,
+        boxShadow: '0 0 8px rgba(74, 158, 255, 0.6)',
+        pointerEvents: 'none',
+        willChange: 'width',
+      }}
+    />
   );
 };
 

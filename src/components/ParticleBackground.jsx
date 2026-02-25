@@ -8,15 +8,16 @@ const ParticleBackground = () => {
         const mount = mountRef.current;
         if (!mount) return;
 
+        const isMobile = window.innerWidth < 768;
+
         // --- Setup ---
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.z = 100;
 
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        const isMobile = window.innerWidth < 768;
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2)); // Lower resolution on mobile for performance
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 0.8 : 1.5));
         mount.appendChild(renderer.domElement);
 
         // --- Shader Gradient ---
@@ -96,7 +97,7 @@ const ParticleBackground = () => {
 
         // --- Particles ---
         const particlesGeo = new THREE.BufferGeometry();
-        const pCount = 250;
+        const pCount = isMobile ? 80 : 250;
         const pPos = [];
         const pSizes = [];
 
@@ -157,50 +158,55 @@ const ParticleBackground = () => {
         particles.targetRotationX = 0;
         particles.targetRotationY = 0;
 
-        const animate = () => {
-            frameId = requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
+        // --- Throttle to 30fps + pause during scroll ---
+        const TARGET_FPS = 30;
+        const FRAME_INTERVAL = 1000 / TARGET_FPS;
+        let lastFrameTime = 0;
+        let isScrolling = false;
+        let scrollTimeout = null;
 
+        const handleScroll = () => {
+            isScrolling = true;
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 150);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        const animate = (timestamp) => {
+            frameId = requestAnimationFrame(animate);
+
+            // Skip frame if scrolling or not enough time passed
+            if (isScrolling) return;
+            if (timestamp - lastFrameTime < FRAME_INTERVAL) return;
+            lastFrameTime = timestamp;
+
+            const time = clock.getElapsedTime();
             gradientUniforms.uTime.value = time;
 
             if (mouseObj.isOnScreen) {
-                // Smoothly interpolate current rotation to target rotation
                 particles.rotation.x += (particles.targetRotationX - particles.rotation.x) * 0.05;
                 particles.rotation.y += (particles.targetRotationY - particles.rotation.y) * 0.05;
-
-                // Gentle floating (Sin wave)
-                // Use lerp to smooth transition if we were flowing
                 particles.position.y += (Math.sin(time * 1.0) * 5 - particles.position.y) * 0.05;
-
             } else {
-                // Mouse Off - Upward Flow
-                // Reset rotation
                 particles.rotation.x += (0 - particles.rotation.x) * 0.05;
                 particles.rotation.y += (0 - particles.rotation.y) * 0.05;
-
-                // Dampen group position to 0 to stop oscillation
                 particles.position.y += (0 - particles.position.y) * 0.05;
 
-                // Move individual particles up
                 const positions = particles.geometry.attributes.position.array;
-                const speed = 0.2; // Very slow
-
+                const speed = 0.2;
                 for (let i = 1; i < positions.length; i += 3) {
                     positions[i] += speed;
-                    // Reset if too high (bounds based on initial random spread which was roughly -100 to 100)
-                    if (positions[i] > 100) {
-                        positions[i] = -100;
-                    }
+                    if (positions[i] > 100) positions[i] = -100;
                 }
                 particles.geometry.attributes.position.needsUpdate = true;
             }
 
-            // Always add a slight spin
             particles.rotation.y += 0.002;
-
             renderer.render(scene, camera);
         };
-        animate();
+        animate(0);
 
         // --- Resize ---
         const handleResize = () => {
@@ -217,6 +223,8 @@ const ParticleBackground = () => {
             document.body.removeEventListener('mouseenter', handleMouseEnter);
             document.body.removeEventListener('mouseleave', handleMouseLeave);
             window.removeEventListener('resize', handleResize);
+            window.removeEventListener('scroll', handleScroll);
+            clearTimeout(scrollTimeout);
             cancelAnimationFrame(frameId);
             if (mount.contains(renderer.domElement)) {
                 mount.removeChild(renderer.domElement);

@@ -211,6 +211,10 @@ const Skills = () => {
           .skill-pill {
             padding: 0.5rem 1rem;
             border-radius: 8px;
+            /* Disable backdrop-filter on mobile — causes scroll jank */
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background: rgba(20, 20, 30, 0.85);
           }
           .skill-icon {
             font-size: 1.2rem;
