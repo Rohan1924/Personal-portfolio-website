@@ -7,10 +7,10 @@
 
   --color-text: #ffffff;
   /* Pure White */
-  --color-text-secondary: #e2e8f0;
-  /* Bright Grey (Slate-200) for better visibility */
-  --color-text-dim: #94a3b8;
-  /* Slate-400 */
+  --color-text-secondary: #f0f0f0;
+  /* Near White for body text */
+  --color-text-dim: #cccccc;
+  /* Light grey */
 
   /* Accents */
   --color-primary: #ffffff;
@@ -20,8 +20,8 @@
   --color-border: #3c4043;
   /* Dark Grey Border */
 
-  --shadow-text: 0 4px 12px rgba(0, 0, 0, 0.8);
-  /* Strong pop for text */
+  --shadow-text: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.7);
+  /* Strong dark shadow for green bg */
 
   /* Fonts */
   --font-sans: 'Inter',
@@ -41,6 +41,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  font-size: 16px;
 }
 
 body {
@@ -67,7 +71,7 @@ h6 {
   color: var(--color-text);
   font-weight: 600;
   letter-spacing: -0.02em;
-  text-shadow: var(--shadow-text);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 0, 0, 0.85);
 }
 
 /* Utilities */
@@ -84,7 +88,6 @@ h6 {
 
   html {
     font-size: 14px;
-    /* Slightly scale down base font size */
   }
 }
 

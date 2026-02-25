@@ -51,34 +51,36 @@ const Hero = () => {
           font-size: 0.875rem;
           letter-spacing: 0.1em;
           margin-bottom: 1.5rem;
-          color: var(--color-primary); /* Use Primary White */
+          color: #ffffff;
           font-weight: 500;
-          text-shadow: var(--shadow-text);
+          text-shadow: 0 2px 6px rgba(0,0,0,0.95), 0 0 15px rgba(0,0,0,0.9);
         }
         .name {
-          font-size: 3.5rem; /* Reduced from 5rem */
-          font-weight: 600; /* Reduced from 800 */
+          font-size: 3.5rem;
+          font-weight: 700;
           line-height: 1.1;
           margin-bottom: 1.5rem;
-          color: var(--color-text);
+          color: #ffffff;
           letter-spacing: -0.02em;
-          text-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Softer shadow */
+          text-shadow: 0 2px 8px rgba(0,0,0,0.98), 0 0 30px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.85);
         }
         .title {
           font-family: var(--font-mono);
-          font-size: 1.75rem; /* Slightly smaller, more tech */
+          font-size: 1.75rem;
           margin-bottom: 2.5rem;
-          color: var(--color-text-secondary);
+          color: #f5f5f5;
           font-weight: 400;
           letter-spacing: -0.02em;
+          text-shadow: 0 2px 6px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.85);
         }
         .bio {
           max-width: 600px;
-          color: var(--color-text-secondary);
+          color: #f0f0f0;
           font-size: 1.125rem;
           margin-bottom: 3.5rem;
           font-weight: 400;
           line-height: 1.8;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.95), 0 0 12px rgba(0,0,0,0.85);
         }
         
         .highlight {
