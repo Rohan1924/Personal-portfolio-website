@@ -5,6 +5,50 @@ import ProjectModal from './ProjectModal';
 
 const projects = [
   {
+    title: "Aadhaar N.E.X.U.S",
+    description: "National Equity eXecution & Utilization System. A data-driven planning and early-warning system that measures digital equity.",
+    image: "/assets/aadhaar-nexus-1.png",
+    tags: ["Streamlit", "Python", "Data Viz"],
+    links: {
+      code: "https://github.com/Rohan1924/aadhaar-nexus",
+      live: "https://aadhaar-nexus-iyp6hfpq0io.streamlit.app/"
+    },
+    details: {
+      problem: [
+        "Need to measure digital equity across 36 states/UTs and 645+ districts.",
+        "Lack of a centralized system to anticipate Aadhaar demand and service gaps.",
+        "Requirement for data-driven simulations to prioritize UIDAI interventions."
+      ],
+      systemOverview: {
+        description: "An interactive Streamlit dashboard that provides nationwide visibility into the Digital Equity Index (DEI), Access Health, Update Load, and Stability scores.",
+        image: "/assets/aadhaar-nexus-2.png"
+      },
+      built: {
+        data: ["Digital Equity Index (DEI)", "Census Data", "Live KPIs"],
+        models: ["Risk Classification Algorithms", "AI Recommendation Engine"],
+        pipelines: ["State to District Drill-down", "Export Reports"],
+        stack: ["Streamlit (Frontend)", "Python (Backend)", "Plotly (Visualization)", "Pandas (Data Processing)"]
+      },
+      decisions: [
+        "Chosen Streamlit for rapid, interactive data visualization and dashboarding",
+        "Implemented a comprehensive 'Digital Equity Index' to unify complex metrics",
+        "Designed for dark mode compatibility to ensure accessibility in all environments"
+      ],
+      screenshots: [
+        "/assets/aadhaar-nexus-3.png",
+        "/assets/aadhaar-nexus-4.png",
+        "/assets/aadhaar-nexus-5.png"
+      ],
+      // video: "", 
+      why: "Empowers policymakers with real-time, data-driven insights to bridge the digital divide and optimize Aadhaar service delivery.",
+      next: [
+        "Integrate real-time data feeds for dynamic updating",
+        "Expand predictive modeling for future demand forecasting",
+        "Develop mobile-responsive views for field agents"
+      ]
+    }
+  },
+  {
     title: "DetectAI",
     description: "Android app to detect AI-generated text and images.",
     image: "/assets/detectai.png",
@@ -132,50 +176,6 @@ const projects = [
         "Add personalized care reminders",
         "Increase Plant library",
         "Introduce moderation tools"
-      ]
-    }
-  },
-  {
-    title: "Aadhaar N.E.X.U.S",
-    description: "National Equity eXecution & Utilization System. A data-driven planning and early-warning system that measures digital equity.",
-    image: "/assets/aadhaar-nexus-1.png",
-    tags: ["Streamlit", "Python", "Data Viz"],
-    links: {
-      code: "https://github.com/Rohan1924/aadhaar-nexus",
-      live: "https://aadhaar-nexus-iyp6hfpq0io.streamlit.app/"
-    },
-    details: {
-      problem: [
-        "Need to measure digital equity across 36 states/UTs and 645+ districts.",
-        "Lack of a centralized system to anticipate Aadhaar demand and service gaps.",
-        "Requirement for data-driven simulations to prioritize UIDAI interventions."
-      ],
-      systemOverview: {
-        description: "An interactive Streamlit dashboard that provides nationwide visibility into the Digital Equity Index (DEI), Access Health, Update Load, and Stability scores.",
-        image: "/assets/aadhaar-nexus-2.png"
-      },
-      built: {
-        data: ["Digital Equity Index (DEI)", "Census Data", "Live KPIs"],
-        models: ["Risk Classification Algorithms", "AI Recommendation Engine"],
-        pipelines: ["State to District Drill-down", "Export Reports"],
-        stack: ["Streamlit (Frontend)", "Python (Backend)", "Plotly (Visualization)", "Pandas (Data Processing)"]
-      },
-      decisions: [
-        "Chosen Streamlit for rapid, interactive data visualization and dashboarding",
-        "Implemented a comprehensive 'Digital Equity Index' to unify complex metrics",
-        "Designed for dark mode compatibility to ensure accessibility in all environments"
-      ],
-      screenshots: [
-        "/assets/aadhaar-nexus-3.png",
-        "/assets/aadhaar-nexus-4.png",
-        "/assets/aadhaar-nexus-5.png"
-      ],
-      // video: "", 
-      why: "Empowers policymakers with real-time, data-driven insights to bridge the digital divide and optimize Aadhaar service delivery.",
-      next: [
-        "Integrate real-time data feeds for dynamic updating",
-        "Expand predictive modeling for future demand forecasting",
-        "Develop mobile-responsive views for field agents"
       ]
     }
   }
