@@ -55,14 +55,7 @@ function App() {
         </>
       ) : (
         <AllCertifications onBack={() => {
-          // If we have history, go back to clear the hash. 
-          // If not, explicitly set hash to empty/home.
-          if (window.history.length > 1) {
-            window.history.back();
-          } else {
-            window.location.hash = '';
-          }
-
+          window.location.hash = '';
           // Optional: scroll back to certifications section after render
           setTimeout(() => {
             const section = document.getElementById('certifications');
@@ -71,11 +64,7 @@ function App() {
         }} />
       )}
       <ResumeModal isOpen={showResume} onClose={() => {
-        if (window.location.hash === '#resume') {
-          window.history.back();
-        } else {
-          setShowResume(false);
-        }
+        window.location.hash = '';
       }} />
     </Layout>
   );
